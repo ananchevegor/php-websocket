@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+</head>
+<body>
+    <input type="text" id="user"/>
+    <script>
+        
+        ws = new WebSocket("ws://localhost:2346");
+        ws.onopen = function() {
+            ws.send('{"event":"connect", "user":"backend"}');
+            console.log('connected');
+        };
+        ws.onmessage = function(e) {
+            console.log(e.data)
+        };
+        const func = () =>{
+            var user = document.getElementById('user').value;
+            if(user==''){
+                console.log(user);
+                ws.send('{"event":"toAll", "message":"Hello"}');
+            }else{
+                console.log(user);
+                ws.send('{"event":"toUser", "message":"Hello", "user":"user"}');
+            }
+            
+        }
+    </script>
+    
+    <button onclick="func()">Click me</button>
+</body>
+</html>
